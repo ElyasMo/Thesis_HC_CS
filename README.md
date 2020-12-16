@@ -125,6 +125,83 @@ Accordingly, we will have four matrixes for four cancer cell lines. In rows we c
 ![LFC](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/LFC_Example.PNG)
 
 ## Gene-Gene correlation
-Various methods could be used to compute gene-gene correlation. In this study, we have used Spearman's rank correlation coefficient, Pearson correlation coefficient, and Kendall rank correlation coefficient. Based on the performance of these methods, one of them was used as the gene-gene correlation method.
-the [SciPy.stats](https://docs.scipy.org/doc/scipy/reference/stats.html) in python3 was used to calculate gene-gene correlations.
+Various methods could be used to compute gene-gene correlation. In this study, we compared Spearman's rank correlation coefficient, Pearson correlation coefficient, and Kendall rank correlation coefficient. Based on the performance of these methods, one of them was considered as the gene-gene correlation reference method.
+The [SciPy.stats](https://docs.scipy.org/doc/scipy/reference/stats.html) in python3 was used to calculate gene-gene correlations.
 
+```Python
+#an example of calculating gen-gene correlation for one cancer cell line
+from scipy.stats import pearsonr
+from scipy.stats import spearmanr
+from scipy.stats import kendalltau
+
+pro=pd.read_csv('A549_LFC_total_genenames.csv', index_col=0)
+pro1=pd.read_csv('A549_LFC_total_genenames_filtered.csv')
+
+#To correct the excel file regarding the changing gene names to dates
+pro=pro.rename(index={"Sep-2":"Sptin-2","Mar-6":"MACHF6","Mar-7":"MACHF7","Sep-8":"SPTIN8","Mar-2":"MACHF2","Sep-4":"SPTIN4","Sep-10":"SPTIN10","Sep-7":"SPTIN7","Mar-3":"MACHF3","Sep-6":"SPTIN6","Mar-5":"MACHF5","Mar-1":"MTAC1","Dec-1":"ELEC1","Mar-2":"MTRC2","Mar-8":"MACHF8","Sep-9":"SPTIN9"})
+#To skip NaNs
+pro=pro.dropna()
+
+symbol=pro1['gene symbol']
+#preparingthe gene-gene symbol pairs
+
+xInds = []
+yInds = []
+for i in range(len(pro.index)):
+    for j in range(i+1, len(pro.index)):
+        xInds.append(symbol[i])
+        yInds.append(symbol[j]) 
+symbol={'g1':xInds, 'g2':yInds}
+symbol=pd.DataFrame(symbol)
+$preparing the gene-gene indexes for the correlatio method
+xInds = []
+yInds = []
+for i in range(len(pro.index)):
+    for j in range(i+1, len(pro.index)):
+        xInds.append(i)
+        yInds.append(j) 
+#the gene-gene correlation computation        
+z=0
+Rlist_sp = []
+Plist_sp = []
+Rlist_pe = []
+Plist_pe = []
+while z < len(xInds):
+    b=xInds[z]
+    c=yInds[z]    
+    spR, spP = spearmanr(pro.iloc[b].values, pro.iloc[c].values)
+    peR, peP = pearsonr(pro.iloc[b].values, pro.iloc[c].values) 
+    keR, keP = kendalltau(pro.iloc[b].values, pro.iloc[c].values) 
+    Rlist_sp.append(spR)
+    Plist_sp.append(spP)
+    Rlist_pe.append(peR)
+    Plist_pe.append(peP) 
+    Rlist_ke.append(keR)
+    Plist_ke.append(keP)
+    z=z+1    
+G1=pd.DataFrame(xInds)
+G2=pd.DataFrame(yInds)
+R_sp=pd.DataFrame(Rlist_sp)
+P_sp=pd.DataFrame(Plist_sp)
+R_pe=pd.DataFrame(Rlist_pe)
+P_pe=pd.DataFrame(Plist_pe) 
+R_ke=pd.DataFrame(Rlist_ke)
+P_ke=pd.DataFrame(Plist_ke)
+Final=pd.concat([G1, G2, R_sp, R_pe, R_ke P_sp, P_pe, P_ke], axis=1)
+np.savetxt('out_gg_A549.txt', Final.values, fmt='%s', delimiter='\t') 
+
+#False discovery rate computation
+#an example for calculating FDR based on one Pvalue (peP). The same procedure will be followed for other Pvalues
+df_fdr=pd.DataFrame()
+x=0
+p_vals=Final['peP']
+from scipy.stats import rankdata
+ranked_p_values = rankdata(p_vals)
+fdr = p_vals * len(p_vals) / ranked_p_values
+fdr[fdr > 1] = 1
+df_fdr=pd.DataFrame(fdr)
+.
+.
+.
+df_fdr= pd.concat([fdr_pe, fdr_sp, fdr_ke], axis=1, join='inner')
+pe = pd.concat([symbol,Final, df_fdr], axis=1, join='inner')
