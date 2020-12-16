@@ -271,4 +271,8 @@ Besides, according to the number of enriched terms and their level of significan
 
 ![Fig3](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/Dotplot.jpg)
 
-**Figure 3. The enriched terms in y-axis and 
+**Figure 3. The enriched terms in y-axis and adjusted-pvalue in x-axis shows the higher amount of enriched terms in Pearson correlation coefficient merhod.**
+![Fig](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/Barplot.jpg)
+**Figure 4. The enriched terms in y-axis and number of genes which were enrolled in the enriched terms in x-axis shows the advantage Pearson correlation coefficient merhod.**
+![Fig4](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/Heatplots.jpg)
+**Figure 5. The enriched terms in y-axis and number of genes which were enrolled in the enriched terms in x-axis shows the advantage Pearson correlation coefficient merhod.**
