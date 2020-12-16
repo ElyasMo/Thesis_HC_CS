@@ -2,7 +2,7 @@
 The aim of this study is to find new genes and drugs which directly or indirectly play a role in Heparan sulfate and Chondroitin sulfate expansion at the surface of cancer cells
 
 ## Parsing the data
-[Slinky R package](http://bioconductor.org/packages/slinky) was used to retreive the level three of LINCS L1000 gene expression data. highest dose (10µm) and time points (24h) were considered.
+[Slinky R package](http://bioconductor.org/packages/slinky) was used to retreive the level three of LINCS L1000 gene expression data. Highest dose (10µm) and time points (24h) were considered.
 
 ```R
 library(slinky)
@@ -23,7 +23,7 @@ The control (Cancer cell which is treated with DMSO) and treated (Cancer cell wh
 ## Data manipulation
 To comput the LogFoldChange (LFC) Between control and treated data, [NumPy library](https://numpy.org/) was used.
 
-Example for one cancer cell line:
+Example for computing LFC for one cancer cell line:
 ```Python
 import pandas as pd
 import numpy as np
@@ -120,10 +120,10 @@ for char in LJP005_x1_list:
         m=m+1
 LFC_LJP005_x1.to_excel("LFC_LJP005_x1.xlsx")
 ```
-Accordingly, we will have four matrixes for four cancer cell lines. In rows we can see the gene symbols and in columns we can see the information about purterbagens (LJ00), time point (24h), batches (x), and even wells in each plates as abbteviations.
+Accordingly, we will have four matrixes for four cancer cell lines. In rows we can see the gene symbols and in columns we can see the information about purterbagens (LJ00), time point (24h), batches (x), and even wells in each plates as abbteviations (Figure 1).
 
 ![LFC](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/LFC_Example.PNG)
-
+                                   **Figure 1: LFC matrix for a cancer cell line**
 ## Gene-Gene correlation
 Various methods could be used to compute gene-gene correlation. In this study, we compared Spearman's rank correlation coefficient, Pearson correlation coefficient, and Kendall rank correlation coefficient. Based on the performance of these methods, one of them was considered as the gene-gene correlation reference method.
 The [SciPy.stats](https://docs.scipy.org/doc/scipy/reference/stats.html) in python3 was used to calculate gene-gene correlations.
@@ -261,4 +261,4 @@ head(summary(ego4))
 barplot(ego4)
 dotplot(ego4)
 ```
-Functional analysis revlead that Pearson correlation coefficient
+Functional analysis revlead that Pearson correlation coefficient outperform
