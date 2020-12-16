@@ -120,9 +120,11 @@ for char in LJP005_x1_list:
         m=m+1
 LFC_LJP005_x1.to_excel("LFC_LJP005_x1.xlsx")
 ```
+Accordingly, we will have four matrixes for four cancer cell lines. In rows we can see the gene symbols and in columns we can see the information about purterbagens (LJ00), time point (24h), batches (x), and even wells in each plates as abbteviations.
+
+![LFC](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/LFC_Example.PNG)
+
 ## Gene-Gene correlation
-Various methods could be used to compute gene-gene correlation
-
-
-[SciPy.stats](https://docs.scipy.org/doc/scipy/reference/stats.html) was used. 
+Various methods could be used to compute gene-gene correlation. In this study, we have used Spearman's rank correlation coefficient, Pearson correlation coefficient, and Kendall rank correlation coefficient. Based on the performance of these methods, one of them was used as the gene-gene correlation method.
+the [SciPy.stats](https://docs.scipy.org/doc/scipy/reference/stats.html) in python3 was used to calculate gene-gene correlations.
 
