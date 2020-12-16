@@ -265,4 +265,6 @@ Functional analysis revlead that Pearson correlation coefficient outperform the 
 
 ![correlation](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/Enriched%20terms.PNG)
 
-**Figure 2. Number of enriched terms in GO and KEGG analysis of first 100 and 500 gene pairs retrived from Spearman's rank correlation coefficient, Pearson correlation coefficient, and Kendall rank correlation coefficient** methods.
+**Figure 2. Number of enriched terms in GO and KEGG analysis of first 100 and 500 gene pairs retrived from Spearman's rank correlation coefficient, Pearson correlation coefficient, and Kendall rank correlation coefficient methods.**
+
+Besides, the number of genes 
