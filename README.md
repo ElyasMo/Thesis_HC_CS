@@ -261,4 +261,8 @@ head(summary(ego4))
 barplot(ego4)
 dotplot(ego4)
 ```
-Functional analysis revlead that Pearson correlation coefficient outperform
+Functional analysis revlead that Pearson correlation coefficient outperform the other methods. According to **Figure 2**, the number of enriched terms in GO and KEGG analysis of first 100 gene pairs depict the better performance of Kendall rank correlation coefficient method while the number of enriched terms for the first 500 gene pairs showed the advantage of Pearson correlation coefficient and Spearman's rank correlation coefficient was in the third place out of three methods.
+
+![correlation](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/Enriched%20terms.PNG)
+
+**Figure 2. Number of enriched terms in GO and KEGG analysis of first 100 and 500 gene pairs retrived from Spearman's rank correlation coefficient, Pearson correlation coefficient, and Kendall rank correlation coefficient** methods.
