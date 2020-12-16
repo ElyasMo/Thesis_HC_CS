@@ -205,3 +205,31 @@ df_fdr=pd.DataFrame(fdr)
 .
 df_fdr= pd.concat([fdr_pe, fdr_sp, fdr_ke], axis=1, join='inner')
 pe = pd.concat([symbol,Final, df_fdr], axis=1, join='inner')
+```
+## Functional analysis to decide which statistical method is the best.
+According to [Kumari et al.](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0050411), the first 100 and 500 gene pairs (based on the lowest FDR) were chosen for functional analysis. The aim was to determine which statistical method can extract more meaningful correlations. To address this, we used [Clustprofiler](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html) R package. We investigated the method that can produce more enriched terms based on the first 100 and 500 correlated gene pairs.
+
+```R
+library(dbplyr)
+library(org.Hs.eg.db)
+library(AnnotationHub)
+library(DOSE)
+
+
+setwd("Directory")
+DEGs="Directory/A549_500.csv"
+DEG = as.data.frame(read.csv(DEGs,sep=',',stringsAsFactors = F,row.names = NULL))
+library(clusterProfiler)
+
+#GO analysis
+ego3 <- enrichGO(gene         = DEG$top_500paires,
+                 OrgDb         = org.Hs.eg.db,
+                 keyType       = 'SYMBOL',
+                 ont           = "CC",
+                 pAdjustMethod = "BH",
+                 pvalueCutoff  = 0.05,
+                 qvalueCutoff  = 0.05)
+head(summary(ego3))
+dotplot(ego3, x='p.adjust', showCategory=44)
+barplot(ego3, showCategory=44)
+heatplot(ego3, showCategory = 44, foldChange = NULL)
