@@ -207,7 +207,7 @@ df_fdr= pd.concat([fdr_pe, fdr_sp, fdr_ke], axis=1, join='inner')
 pe = pd.concat([symbol,Final, df_fdr], axis=1, join='inner')
 ```
 ## Functional analysis to decide which statistical method is the best.
-According to [Kumari et al.](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0050411), the first 100 and 500 gene pairs (based on the lowest FDR) were chosen for functional analysis. The aim was to determine which statistical method can extract more meaningful correlations. To address this, we used [Clustprofiler](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html) R package. We investigated the method that can produce more enriched terms based on the first 100 and 500 correlated gene pairs.
+According to [Kumari et al.](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0050411), the first 100 and 500 gene pairs (based on the lowest FDR) were chosen for functional analysis (both GO and KEGG pathway analysis). The aim was to determine which statistical method can extract more meaningful correlations. To address this, we used [Clustprofiler](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html) R package. We investigated the method that can produce more enriched terms based on the first 100 and 500 correlated gene pairs.
 
 ```R
 library(dbplyr)
@@ -230,6 +230,35 @@ ego3 <- enrichGO(gene         = DEG$top_500paires,
                  pvalueCutoff  = 0.05,
                  qvalueCutoff  = 0.05)
 head(summary(ego3))
-dotplot(ego3, x='p.adjust', showCategory=44)
+dotplot(ego3, x='p.adjust')
 barplot(ego3, showCategory=44)
-heatplot(ego3, showCategory = 44, foldChange = NULL)
+heatplot(ego3, foldChange = NULL)
+
+#Converting the gene symbols to to ENSEMBL ID
+library(EnsDb.Hsapiens.v86)
+
+hsens=EnsDb.Hsapiens.v86
+my.symbols <- DEG$top_500paires
+enterz<- select(hsens,  
+                keys = my.symbols, 
+                columns = c("ENTREZID", "SYMBOL", "GENEID"), 
+                keytype = "SYMBOL")
+enterz=enterz[complete.cases(enterz), ]
+write.table(enterz,file='new_symbol_enterzid_500.txt',sep = '\t', na = '',row.names = T,col.names=NA)
+
+#KEGG analysis
+enterz = as.data.frame(read.csv('new_symbol_enterzid_500.txt',sep='\t',stringsAsFactors = F,row.names = NULL))
+
+data(geneList, package="DOSE")
+gene <- names(geneList)[abs(geneList) > 2]
+
+ego4 <- enrichKEGG(gene         = enterz$ENTREZID,
+                   organism = 'hsa',
+                   pAdjustMethod = "BH",
+                   pvalueCutoff  = 0.5,
+                   qvalueCutoff  = 0.5)
+head(summary(ego4))
+barplot(ego4)
+dotplot(ego4)
+```
+
