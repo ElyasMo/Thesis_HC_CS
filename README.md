@@ -261,4 +261,4 @@ head(summary(ego4))
 barplot(ego4)
 dotplot(ego4)
 ```
-
+Functional analysis revlead that Pearson correlation coefficient
