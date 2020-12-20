@@ -17,8 +17,7 @@ col.ix <- which(metadata(sl)$cell_id =="HT29" & metadata(sl)$pert_iname == "DMSO
 data <- readGCTX(sl[, col.ix])
 write.table(data,"Directory/Name.txt", sep="\t")
 ```
-The control (Cancer cell which is treated with DMSO) and treated (Cancer cell which is treated with various perturbages) data was retreived for A549 (adenocarcinomic human alveolar basal epithelial
- cells:Lung cancer), MCF7 (Breast cancer), HEPG2 (Liver cancer), and HT-29 (Colon cancer) cancer cell lines.
+The control (Cancer cell which is treated with DMSO) and treated (Cancer cell which is treated with various perturbages) data was retreived for MCF7 (human breast adenocarcinoma cell line; ATCC HTB-22), A549 (human non-small cell lung carcinoma cell line; ATCC CCL-185), HePG2 (human hepatocellular carcinoma cell line; ATCC HB-8065), HT29 (human colorectal adenocarcinoma cell line; ATCC HTB-38) cancer cell lines.
  
 ## Data manipulation
 To comput the LogFoldChange (LFC) Between control and treated data, [NumPy library](https://numpy.org/) was used.
