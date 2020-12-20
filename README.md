@@ -277,7 +277,7 @@ Besides, according to the number of enriched terms and their level of significan
 ![Fig5](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/Heatplots.jpg)
 **Figure 5. The enriched terms are shown in y-axis and the number of genes which were enrolled in the enriched terms are placed in x-axis. According to the GO analysis, A) is the heatplot of Pearson correlation coefficient for the first five hundered gene-gene corelations. B) is the heatplot of Spearman's rank correlation coefficient for the first five hundered gene-gene corelations. C) is the heatplot of Kendall rank correlation coefficient for the C1) first one hundered gene-gene correlations and c2) first five hundered gene-gene correlation**
 
-##Extracting HS and CS gene informations
+## Extracting HS and CS gene informations
 After comingto conclusion that Pearson correlation coefficient is the best method to comput gene-gene correlations, this calculation was done for all four cancer cell lines.
 Based on the experimentally aproved gene related to HS and CS which were obtained from literture reviewes, all co-expressed genes with these genes were extracted, were filtered based on the FDR<0.05, and were sorted based on the FDR values.
 
