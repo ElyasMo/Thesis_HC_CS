@@ -276,3 +276,86 @@ Besides, according to the number of enriched terms and their level of significan
 
 ![Fig5](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/Heatplots.jpg)
 **Figure 5. The enriched terms are shown in y-axis and the number of genes which were enrolled in the enriched terms are placed in x-axis. According to the GO analysis, A) is the heatplot of Pearson correlation coefficient for the first five hundered gene-gene corelations. B) is the heatplot of Spearman's rank correlation coefficient for the first five hundered gene-gene corelations. C) is the heatplot of Kendall rank correlation coefficient for the C1) first one hundered gene-gene correlations and c2) first five hundered gene-gene correlation**
+
+##Extracting HS and CS gene informations
+After comingto conclusion that Pearson correlation coefficient is the best method to comput gene-gene correlations, this calculation was done for all four cancer cell lines.
+Based on the experimentally aproved gene related to HS and CS which were obtained from literture reviewes, all co-expressed genes with these genes were extracted, were filtered based on the FDR<0.05, and were sorted based on the FDR values.
+
+```python
+g1=pe.loc[pe['g1'].isin(['SDC1','SDC2','SDC3','SDC4','GPC1','GPC2', 'GPC3', 'GPC4', 'GPC5', 'GPC6', 'PRCAN', 'AGRN',
+                              'COL18A1','B3GAT3', 'EXTL2','EXT1','EXT2','NDST1','NDST2','NDST3','NDST4', 'GLCE', 'HS2ST1',
+                             'HS6ST1','HS6ST2','HS6ST3', 'HS3ST1','HS3ST2','HS3ST3','HS3ST4','HS3ST5','HS3ST6', 'SULF1',
+                             'SULF2','CSGALNACT1','CHSY1','CHPF','CHSY3','CHST11','CHST12','CHS14','CHST3','CHST7','CHS15',
+                             'DSE','UST'])]
+g2=pe.loc[pe['g2'].isin(['SDC1','SDC2','SDC3','SDC4','GPC1','GPC2', 'GPC3', 'GPC4', 'GPC5', 'GPC6', 'PRCAN', 'AGRN',
+                              'COL18A1','B3GAT3', 'EXTL2','EXT1','EXT2','NDST1','NDST2','NDST3','NDST4', 'GLCE', 'HS2ST1',
+                             'HS6ST1','HS6ST2','HS6ST3', 'HS3ST1','HS3ST2','HS3ST3','HS3ST4','HS3ST5','HS3ST6', 'SULF1',
+                             'SULF2','CSGALNACT1','CHSY1','CHPF','CHSY3','CHST11','CHST12','CHS14','CHST3','CHST7','CHS15',
+                             'DSE','UST'])]
+frames=[g1,g2]
+genes=pd.concat(frames)
+genes=genes[genes['fdr_pe']<=0.05]
+genes=genes.sort_values(by=["fdr_pe"])
+genes.to_csv('genes.csv')
+```
+Top 200 gene pairs (with lowest FDR) for all available genes which were obtained from the literture was extracted from the "genes" matrix.
+
+```python
+list_genes=['SDC1','SDC2','SDC3','SDC4','GPC1','GPC2', 'GPC3', 'GPC4', 'GPC5', 'GPC6', 'PRCAN', 'AGRN',
+                              'COL18A1','B3GAT3', 'EXTL2','EXT1','EXT2','NDST1','NDST2','NDST3','NDST4', 'GLCE', 'HS2ST1',
+                             'HS6ST1','HS6ST2','HS6ST3', 'HS3ST1','HS3ST2','HS3ST3','HS3ST4','HS3ST5','HS3ST6', 'SULF1',
+                             'SULF2','CSGALNACT1','CHSY1','CHPF','CHSY3','CHST11','CHST12','CHS14','CHST3','CHST7','CHS15',
+                             'DSE','UST']
+s=pd.DataFrame()
+w=pd.DataFrame()
+v=pd.DataFrame()
+genes=pd.read_csv('genes.csv', sep=',', index_col=0)
+genes=genes.sort_values(by=["fdr_pe"])
+genes.columns=['g1', 'g2', 'peR', 'peP','fdr_pe']
+z=0
+while z<46:
+    x=list_genes[z]
+    y=genes.loc[genes['g1'].isin([x])]
+    q=genes.loc[genes['g2'].isin([x])]
+    y=y.head(100)
+    q=q.head(100)
+    s=pd.DataFrame(y)
+    v=pd.DataFrame(q)
+    frames = [w, s, v]
+    w=pd.concat(frames)
+    z=z+1
+w.to_csv('top100_each_genes.csv')
+```
+Also, top gene-gene correlations for each experimentally aproved gene was extracted seperately in a dataframe.
+
+```python
+list_genes=['SDC1','SDC2','SDC3','SDC4','GPC1','GPC2', 'GPC3', 'GPC4', 'GPC5', 'GPC6', 'PRCAN', 'AGRN',
+                              'COL18A1','B3GAT3', 'EXTL2','EXT1','EXT2','NDST1','NDST2','NDST3','NDST4', 'GLCE', 'HS2ST1',
+                             'HS6ST1','HS6ST2','HS6ST3', 'HS3ST1','HS3ST2','HS3ST3','HS3ST4','HS3ST5','HS3ST6', 'SULF1',
+                             'SULF2','CSGALNACT1','CHSY1','CHPF','CHSY3','CHST11','CHST12','CHS14','CHST3','CHST7','CHS15',
+                             'DSE','UST']
+list_csv=['SDC1.csv','SDC2,csv','SDC3.csv','SDC4.csv','GPC1.csv','GPC2.csv', 'GPC3.csv', 'GPC4.csv', 'GPC5.csv', 'GPC6.csv', 'PRCAN.csv', 'AGRN.csv',
+                              'COL18A1.csv','B3GAT3.csv', 'EXTL2.csv','EXT1.csv','EXT2.csv','NDST1.csv','NDST2.csv','NDST3.csv','NDST4.csv', 'GLCE.csv', 'HS2ST1.csv',
+                             'HS6ST1.csv','HS6ST2.csv','HS6ST3.csv', 'HS3ST1.csv','HS3ST2.csv','HS3ST3.csv','HS3ST4.csv','HS3ST5.csv','HS3ST6.csv', 'SULF1.csv',
+                             'SULF2.csv','CSGALNACT1.csv','CHSY1.csv','CHPF.csv','CHSY3.csv','CHST11.csv','CHST12.csv','CHS14.csv','CHST3.csv','CHST7.csv','CHS15.csv',
+                             'DSE.csv','UST.csv']
+s=pd.DataFrame()
+w=pd.DataFrame()
+v=pd.DataFrame()
+genes=pd.read_csv('genes.csv', sep=',', index_col=0)
+genes=genes.sort_values(by=["fdr_pe"])
+genes.columns=['g1', 'g2', 'peR', 'peP','fdr_pe']
+z=0
+while z<46:
+    x=list_genes[z]
+    y=genes.loc[genes['g1'].isin([x])]
+    q=genes.loc[genes['g2'].isin([x])]
+    y=y.head(100)
+    q=q.head(100)
+    s=pd.DataFrame(y)
+    v=pd.DataFrame(q)
+    frames = [s, v]
+    w=pd.concat(frames)
+    w.to_csv(list_csv[z])
+    z=z+1
+```
