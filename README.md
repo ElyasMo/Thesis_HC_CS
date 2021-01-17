@@ -359,7 +359,7 @@ while z<46:
     w.to_csv(list_csv[z])
     z=z+1
 ```
-in order to discover common co-expressed genes with predefined genes in all four cancer cell lines, it is necessary to have co-expressed genes with each predefined gene for all four cancer cell lines in a dataframe. Accordingly, the 32 out of 46 HS and CS experimentally aproved genes which are available in our dataset was considered for this analysis and 32 dataframes (one for each gene) were prepared which includes four coulumns and in each column significantly co-expressed genes (sorted basedon FDR) for each cancer cell line is available.
+In order to discover common co-expressed genes with predefined genes in all four cancer cell lines, it is necessary to have co-expressed genes with each predefined gene for all four cancer cell lines in a dataframe. Accordingly, the 32 out of 46 HS and CS experimentally aproved genes which are available in our dataset was considered for this analysis and 32 dataframes (one for each gene) were prepared which includes four coulumns for significantly co-expressed genes in four cancer cell lines (sorted basedon FDR) and four related FDR columns.
 
 ```python
 list_csv=['SDC2.csv','SDC3.csv','SDC4.csv','GPC1.csv', 'GPC3.csv', 'GPC4.csv', 'GPC5.csv', 'AGRN.csv',
@@ -374,54 +374,55 @@ while z<32:
     MCF7=pd.read_csv(x,  usecols=range(1,6))
     MCF7=MCF7[['g1','g2','fdr_pe']]
     MCF7=MCF7.sort_values(by=["fdr_pe"])
-    MCF7_1=MCF7['g1']
-    MCF7_2=MCF7['g2']
-    frame=[MCF7_1,MCF7_2]
-    frame=pd.concat(frame)
-    frame.columns=['genes']
-    frame_MCF7=frame.drop_duplicates()
-    frame_MCF7=pd.DataFrame(frame_MCF7)
-    frame_MCF7=frame_MCF7.sort_index(ignore_index=True)
+    MCF7_1=MCF7[['g1','fdr_pe']]
+    MCF7_1.columns=['g_MCF7','fdr_pe']
+    MCF7_2=MCF7[['g2', 'fdr_pe']]
+    MCF7_2.columns=['g_MCF7','fdr_pe']
+    frame=MCF7_1.append(MCF7_2, ignore_index=True)
+    frame=frame.sort_values(by=["fdr_pe"])
+    frame=frame.drop_duplicates(subset='g_MCF7', keep="first")
+    frame_MCF7=frame.sort_index(ignore_index=True)
     %cd "D:\P.H.D\Thesis\new\Matrixes\HT29"
     HT29=pd.read_csv(x,  usecols=range(1,6))
     HT29=HT29[['g1','g2','fdr_pe']]
     HT29=HT29.sort_values(by=["fdr_pe"])
-    HT29_1=HT29['g1']
-    HT29_2=HT29['g2']
-    frame=[HT29_1,HT29_2]
-    frame=pd.concat(frame)
-    frame.columns=['genes']
-    frame_HT29=frame.drop_duplicates()
-    frame_HT29=pd.DataFrame(frame_HT29)
-    frame_HT29=frame_HT29.sort_index(ignore_index=True)
+    HT29_1=HT29[['g1','fdr_pe']]
+    HT29_1.columns=['g_HT29','fdr_pe']
+    HT29_2=HT29[['g2', 'fdr_pe']]
+    HT29_2.columns=['g_HT29','fdr_pe']
+    frame=HT29_1.append(HT29_2, ignore_index=True)
+    frame=frame.sort_values(by=["fdr_pe"])
+    frame=frame.drop_duplicates(subset='g_HT29', keep="first")
+    frame_HT29=frame.sort_index(ignore_index=True)
     %cd "D:\P.H.D\Thesis\new\Matrixes\A549" 
     A549=pd.read_csv(x,  usecols=range(1,6))
     A549=A549[['g1','g2','fdr_pe']]
     A549=A549.sort_values(by=["fdr_pe"])
-    A549_1=A549['g1']
-    A549_2=A549['g2']
-    frame=[A549_1,A549_2]
-    frame=pd.concat(frame)
-    frame.columns=['genes']
-    frame_A549=frame.drop_duplicates()
-    frame_A549=pd.DataFrame(frame_A549)
-    frame_A549=frame_A549.sort_index(ignore_index=True)
+    A549_1=A549[['g1','fdr_pe']]
+    A549_1.columns=['g_A549','fdr_pe']
+    A549_2=A549[['g2', 'fdr_pe']]
+    A549_2.columns=['g_A549','fdr_pe']
+    frame=A549_1.append(A549_2, ignore_index=True)
+    frame=frame.sort_values(by=["fdr_pe"])
+    frame=frame.drop_duplicates(subset='g_A549', keep="first")
+    frame_A549=frame.sort_index(ignore_index=True)
     %cd "D:\P.H.D\Thesis\new\Matrixes\HEPG2" 
     HEPG2=pd.read_csv(x,  usecols=range(1,6))
     HEPG2=HEPG2[['g1','g2','fdr_pe']]
     HEPG2=HEPG2.sort_values(by=["fdr_pe"])
-    HEPG2_1=HEPG2['g1']
-    HEPG2_2=HEPG2['g2']
-    frame=[HEPG2_1,HEPG2_2]
-    frame=pd.concat(frame)
-    frame.columns=['genes']
-    frame_HEPG2=frame.drop_duplicates()
-    frame_HEPG2=pd.DataFrame(frame_HEPG2)
-    frame_HEPG2=frame_HEPG2.sort_index(ignore_index=True)    
+    HEPG2_1=HEPG2[['g1','fdr_pe']]
+    HEPG2_1.columns=['g_HEPG2','fdr_pe']
+    HEPG2_2=HEPG2[['g2', 'fdr_pe']]
+    HEPG2_2.columns=['g_HEPG2','fdr_pe']
+    frame=HEPG2_1.append(HEPG2_2, ignore_index=True)
+    frame=frame.sort_values(by=["fdr_pe"])
+    frame=frame.drop_duplicates(subset='g_HEPG2', keep="first")
+    frame_HEPG2=frame.sort_index(ignore_index=True)
     w=pd.concat([frame_MCF7,frame_HT29,frame_A549,frame_HEPG2], axis=1, join='inner')
-    w.columns=['g_MCF7','g_HT29','g_A549','g_HEPG2']
-    %cd "D:\P.H.D\Thesis\new\Matrixes\Merged\Pairs" 
+    w.columns=['g_MCF7','fdr_MCF7','g_HT29','fdr_HT29','g_A549','fdr_A549','g_HEPG2','fdr_HEPG2']
+    %cd "D:\P.H.D\Thesis\new\Matrixes\Merged\Pairs\NEW" 
     w.to_csv(list_csv[z])
     z=z+1
-    ```
-
+```
+To investigate the common co-expressed genes for each HS and CS genes in all four cancer cell lines a [Venn diagram visualisation tool]https://bioinfogp.cnb.csic.es/tools/venny/
+was used.
