@@ -425,3 +425,5 @@ while z<32:
     z=z+1
 ```
 To investigate the common co-expressed genes for each HS and CS genes in all four cancer cell lines a [Venn diagram visualisation tool](https://bioinfogp.cnb.csic.es/tools/venny/) was used.
+![Fig 6](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/Example.png)
+**Figure 6. An instance on how to find the common co-expressed genes with each HC and CS defined gene in all four cancer cell lines**
