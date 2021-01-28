@@ -493,4 +493,8 @@ heatmap.2(matrix, col=yb, trace = "none", margins = c(6,10), cexCol =0.1,cexRow 
 Fig 7 represents the effect of all perturbagens on HC and CS genes. Considering that the rows are sorted based on the value of LFC, the perturbagens which cause downregulation are located at the left and the ones which cause upregulation are placed at the right side of the heatmap and accordingly, they can be easily extracted.
 
 ![Fig 7](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/all_heatmap%20(1).jpg)
-**Figure 7. The heatmap plot of the effect of perturbagens on HC and CS gene expression.
+**Figure 7. The heatmap plot of the effect of perturbagens on HC and CS gene expression.**
+
+In order to find the common perturbagens which cause up or down regulations for HS and CS genes, the most effective drugs were extracted for all four cancer cell lines (Fig 8).
+
+**Figure 8. all important drugs and/or chemichals which cause up or down regulations in HS and CS genes.**
