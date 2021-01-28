@@ -427,3 +427,66 @@ while z<32:
 To investigate the common co-expressed genes for each HS and CS genes in all four cancer cell lines a [Venn diagram visualisation tool](https://bioinfogp.cnb.csic.es/tools/venny/) was used.
 ![Fig 6](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/Example.png)
 **Figure 6. An instance on how to find the common co-expressed genes with each HC and CS defined gene in all four cancer cell lines. Accordingly, 2 and 137 common co-expressed genes with AGRN, and B3GAT3 genes in all four cancer cell lines can be seen.**
+
+Next step is to choose top 10 coexpressed genes for each experimentally aproved gene (if available).
+In order to visualize the pattern of gene expression and changes against various perturbagens a heatmap was provided for each cancer cell line which have genes as rows and perturbagens as columns. Prior to plotting the heatmap, all gene expressions were sorted in rows to distinguish between up and downregulated expression patterns against various perturbagens.
+To do so, first we should retrive the expression profile of the HS and CS genese and their coexpressed genes from the LFC matrixes for all 4 cancer cell lines.
+
+```python
+%cd "D:\P.H.D\Thesis\new\Matrixes\main_matrixes"
+A549=pd.read_csv('A549_LFC_total.csv')
+HT29=pd.read_csv('HT29_LFC_total.csv')
+HEPG2=pd.read_csv('HEPG2_LFC_total.csv')
+MCF7=pd.read_csv('MCF7_LFC_total.csv')
+
+%cd "D:\P.H.D\Thesis\new\Matrixes\results"
+alls=pd.read_csv('all_in_a_column.csv')
+all_list=alls['all_top_10'].tolist()
+expr_list=alls['expr_apr'].tolist()
+
+A549_expr=A549.loc[A549['gene symbol'].isin(expr_list)]
+A549_expr=A549_expr.sort_index(ignore_index=True)
+A549_all=A549.loc[A549['gene symbol'].isin(all_list)]
+A549_all=A549_all.sort_index(ignore_index=True)
+
+HEPG2_expr=HEPG2.loc[HEPG2['gene symbol'].isin(expr_list)]
+HEPG2_expr=HEPG2_expr.sort_index(ignore_index=True)
+HEPG2_all=HEPG2.loc[HEPG2['gene symbol'].isin(all_list)]
+HEPG2_all=HEPG2_all.sort_index(ignore_index=True)
+
+HT29_expr=HT29.loc[HT29['gene symbol'].isin(expr_list)]
+HT29_expr=HT29_expr.sort_index(ignore_index=True)
+HT29_all=HT29.loc[HT29['gene symbol'].isin(all_list)]
+HT29_all=HT29_all.sort_index(ignore_index=True)
+
+MCF7_expr=MCF7.loc[MCF7['gene symbol'].isin(expr_list)]
+MCF7_expr=MCF7_expr.sort_index(ignore_index=True)
+MCF7_all=MCF7.loc[MCF7['gene symbol'].isin(all_list)]
+MCF7_all=MCF7_all.sort_index(ignore_index=True)
+
+A549_expr.to_csv('A549_expr.csv')
+A549_all.to_csv('A549_all.csv')
+HEPG2_expr.to_csv('HEPG2_expr.csv')
+HEPG2_all.to_csv('HEPG2_all.csv')
+HT29_expr.to_csv('HT29_expr.csv')
+HT29_all.to_csv('HT29_all.csv')
+MCF7_expr.to_csv('MCF7_expr.csv')
+MCF7_all.to_csv('MCF7_all.csv')
+```
+In order to plot the heatmap the gplot package in R was used.
+
+```R
+setwd('Directory')
+
+HS_CS_genes=read.csv("HT29_all_sorted.csv", sep=",", row.names=1) # I import it from the option on up right of the rstudio
+matrix=as.matrix(HS_CS_genes)
+
+library(gplots)
+
+yb <-colorRampPalette(c("gold", "black", "blue"))
+heatmap.2(matrix, col=yb, trace = "none", margins = c(6,10), cexCol =0.1,cexRow = 0.3, 
+          Rowv = FALSE, Colv = FALSE, scale="row", key = TRUE, key.title = "Range"
+          ,key.xlab = "LogFoldChange", key.ylab = "Down", keysize = 1, densadj = 0.25, 
+          density.info="none", key.par=list(mgp=c(1, 0.5, 0),mar=c(1, 3, 4, 0))) #, key.xtickfun=FALSE
+,,,
+
