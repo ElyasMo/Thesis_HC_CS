@@ -488,9 +488,9 @@ heatmap.2(matrix, col=yb, trace = "none", margins = c(6,10), cexCol =0.1,cexRow 
           Rowv = FALSE, Colv = FALSE, scale="row", key = TRUE, key.title = "Range"
           ,key.xlab = "LogFoldChange", key.ylab = "Down", keysize = 1, densadj = 0.25, 
           density.info="none", key.par=list(mgp=c(1, 0.5, 0),mar=c(1, 3, 4, 0))) #, key.xtickfun=FALSE
-,,,
+```
 
 Fig 7 represents the effect of all perturbagens on HC and CS genes. Considering that the rows are sorted based on the value of LFC, the perturbagens which cause downregulation are located at the left and the ones which cause upregulation are placed at the right side of the heatmap and accordingly, they can be easily extracted.
 
 ![Fig 7](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/all_heatmap%20(1).jpg)
-
+**Figure 7. The heatmap plot of the effect of perturbagens on HC and CS gene expression.
