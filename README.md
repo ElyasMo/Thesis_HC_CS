@@ -496,5 +496,5 @@ Fig 7 represents the effect of all perturbagens on HC and CS genes. Considering 
 **Figure 7. The heatmap plot of the effect of perturbagens on HC and CS gene expression.**
 
 In order to find the common perturbagens which cause up or down regulations for HS and CS genes, the most effective drugs were extracted for all four cancer cell lines (Fig 8).
-
+![Fig8](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/heatmap1.jpg)
 **Figure 8. all important drugs and/or chemichals which cause up or down regulations in HS and CS genes.**
