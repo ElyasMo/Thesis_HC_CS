@@ -498,3 +498,5 @@ Fig 7 represents the effect of all perturbagens on HC and CS genes. Considering 
 In order to find the common perturbagens which cause up or down regulations for HS and CS genes, the most effective drugs were extracted for all four cancer cell lines (Fig 8).
 ![Fig8](https://github.com/ElyasMo/Thesis_HC_CS/blob/main/heatmap1.jpg)
 **Figure 8. all important drugs and/or chemichals which cause up or down regulations in HS and CS genes.**
+
+Once again, [Venn diagram visualisation tool](https://bioinfogp.cnb.csic.es/tools/venny/) can be used to find common chemichals which cause the same LFC changes. Accordingly, five common perturbagens caused downregulation and 16 made upregulations in all four cancer cell lines.
